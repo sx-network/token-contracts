@@ -1,4 +1,5 @@
 require("@nomiclabs/hardhat-ethers");
+require("@nomiclabs/hardhat-waffle");
 require('dotenv').config();
 
 /**
@@ -13,5 +14,9 @@ module.exports = {
       url: "https://rpc.toronto.sx.technology/",
       accounts: [`0x${process.env.PK}`]
     }
+  },
+  paths: {
+    tests: "./contracts/test"
   }
+  ,
 };

@@ -28,17 +28,17 @@ contract WSX is
       Deposit(msg.sender, msg.value);
     }
 
-    function withdraw(uint wad) public {
-      require(balanceOf(address(this)) >= wad);
+    function withdraw(uint amount) public {
+      require(address(this).balance >= amount, "Insufficient balance.");
 
       // burn the sender's WSX
-      _burn(_msgSender(), wad);
+      _burn(_msgSender(), amount);
 
       // transfer sender SX
-      (bool success, ) = payable(_msgSender()).call{value:wad}("");
+      (bool success, ) = payable(_msgSender()).call{value:amount}("");
       require(success, "Transfer failed.");
 
-      Withdrawal(_msgSender(), wad);
+      Withdrawal(_msgSender(), amount);
     }
 
 
