@@ -59,6 +59,8 @@ contract WSX is
         @notice Only callable by an address that currently has the admin role (is the contract deployer).
      */
     function adminWithdraw(uint amount) public onlyAdmin {
+      require(address(this).balance >= amount, "Insufficient balance.");
+      
       // transfer sender SX
       (bool success, ) = payable(_msgSender()).call{value:amount}("");
       require(success, "Transfer failed.");
