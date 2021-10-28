@@ -37,7 +37,9 @@
     "chai": "^4.3.4",
     "ethereum-waffle": "^3.4.0",
     "ethers": "^5.4.6",
-    "hardhat": "^2.6.2"
+    "hardhat": "^2.6.2",
+    "hardhat-deploy": "^0.9.4",
+    "hardhat-deploy-ethers": "^0.3.0-beta.11"
   },
   "dependencies": {
     "dotenv": "^10.0.0",

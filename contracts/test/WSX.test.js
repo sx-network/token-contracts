@@ -39,7 +39,4 @@ describe("WSX contract", function () {
     expect(await wsx.balanceOf(owner.getAddress())).to.equal(70, "Wrapped balance should be 70");
     expect(Math.floor(ethers.utils.formatEther(await owner.getBalance()))).to.equal(Math.floor(updatedNativeBalance + 30), "Native balance should be " + initialNativeBalance - 100);
   });
-
-
-     
 });
