@@ -38,24 +38,6 @@ contract SXVault is AccessControl {
   }
 
   /**
-      @notice Grants DEFAULT_ADMIN_ROLE to specified {newAdmin}.
-      @notice Only callable by admin.
-      @param newAdmin Address of the new admin.
-  */
-  function grantAdmin(address newAdmin) external onlyAdmin {
-    _setupRole(DEFAULT_ADMIN_ROLE, newAdmin);
-  }
-
-  /**
-      @notice Revokes DEFAULT_ADMIN_ROLE from the specified {adminAddress}.
-      @notice Only callable by admin.
-      @param adminAddress Address of the current admin to be revoked.
-  */
-  function revokeAdmin(address adminAddress) external onlyAdmin {
-    revokeRole(DEFAULT_ADMIN_ROLE, adminAddress);
-  }
-
-  /**
       @notice Assigns {handlerAddress} used by ownlyHandler.
       @notice Only callable by admin.
       @param handlerAddress Address of the ERC20SXHandler contract, permissioned to call bridgeExit().
