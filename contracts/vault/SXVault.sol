@@ -18,7 +18,7 @@ contract SXVault is AccessControl {
   event BridgeExit(address indexed addr, uint256 amount);
 
   modifier onlyAdmin() {
-     require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender), 'Sender must be an admin.');
+    require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender), 'Sender must be an admin.');
     _;
   }
 
