@@ -1,4 +1,4 @@
-pragma solidity 0.6.6;
+pragma solidity 0.7.6;
 
 import {ERC20PresetMinterPauser} from "@openzeppelin/contracts/presets/ERC20PresetMinterPauser.sol";
 import {NativeMetaTransaction} from "../../common/NativeMetaTransaction.sol";
@@ -17,14 +17,14 @@ contract WSX is
         _;
     }
 
-    constructor() public ERC20PresetMinterPauser("Wrapped SX", "WSX") {
+    constructor() ERC20PresetMinterPauser("Wrapped SX", "WSX") {
         _setupDecimals(18);
         _initializeEIP712("Wrapped SX");
 
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
     }
 
-    fallback() external payable {
+    receive() external payable {
         deposit();
     }
 

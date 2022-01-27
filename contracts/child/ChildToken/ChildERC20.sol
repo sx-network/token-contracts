@@ -1,4 +1,4 @@
-pragma solidity 0.6.6;
+pragma solidity 0.7.6;
 
 import {ERC20PresetMinterPauser} from "@openzeppelin/contracts/presets/ERC20PresetMinterPauser.sol";
 import {NativeMetaTransaction} from "../../common/NativeMetaTransaction.sol";
@@ -14,7 +14,7 @@ contract ChildERC20 is
         string memory symbol_,
         uint8 decimals_,
         address bridgeHandler_
-    ) public ERC20PresetMinterPauser(name_, symbol_) {
+    ) ERC20PresetMinterPauser(name_, symbol_) {
         _setupDecimals(decimals_);
 
         // temporarily added for convenience

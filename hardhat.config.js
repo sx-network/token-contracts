@@ -8,7 +8,7 @@ require('./tasks/wsx-utils.js')
  */
 
 module.exports = {
-  solidity: '0.6.6',
+  solidity: '0.7.6',
 
   networks: {
     toronto: {

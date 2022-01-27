@@ -1,4 +1,4 @@
-pragma solidity 0.6.6;
+pragma solidity 0.7.6;
 
 import {ERC20PresetMinterPauser} from "@openzeppelin/contracts/presets/ERC20PresetMinterPauser.sol";
 import {NativeMetaTransaction} from "../../common/NativeMetaTransaction.sol";
@@ -9,7 +9,7 @@ contract WETH is
     NativeMetaTransaction,
     ContextMixin
 {
-    constructor() public ERC20PresetMinterPauser("Wrapped ETH", "WETH") {
+    constructor() ERC20PresetMinterPauser("Wrapped ETH", "WETH") {
         _setupDecimals(18);
         _initializeEIP712("Wrapped ETH");
 
