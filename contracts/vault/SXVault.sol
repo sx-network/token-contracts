@@ -1,5 +1,7 @@
 pragma solidity 0.7.6;
 
+import "@openzeppelin/contracts/access/AccessControl.sol";
+
 /**
     @title Manages deposited native SX to be paid out to bridge arrivals.
     @notice This contract is currently used by our bridging ERC20SXHandler contract, which is permissioned to
@@ -7,39 +9,58 @@ pragma solidity 0.7.6;
     on the origin chain to native tokens on our own chain.
     @notice This contract requires periodic top ups of native tokens.
  */
-contract SXVault {
-  address public _owner;
+contract SXVault is AccessControl {
+
   address public _handlerAddress;
 
   event Fund(address indexed addr, uint256 amount);
   event Withdraw(address indexed addr, uint256 amount);
   event BridgeExit(address indexed addr, uint256 amount);
 
-  modifier onlyOwner() {
-    require(msg.sender == _owner, 'Sender must be the owner.');
+  modifier onlyAdmin() {
+     require(hasRole(DEFAULT_ADMIN_ROLE, msg.sender), 'Sender must be an admin.');
     _;
   }
 
   modifier onlyHandler() {
-    require(msg.sender == _handlerAddress, 'Sender must be handler contract.');
+    require(_handlerAddress == msg.sender, 'Sender must be handler contract.');
     _;
   }
 
   /**
-      @notice Initializes SXVault, assigns {msg.sender} as the owner (referenced by ownlyOwner),
-      assigns {handlerAddress} used by ownlyHandler.
+      @notice Initializes SXVault, assigns {msg.sender} as the admin (referenced by onlyAdmin),
+      assigns {handlerAddress} used by onlyHandler.
       @param handlerAddress Address of the ERC20SXHandler contract, permissioned to call bridgeExit().
   */
   constructor(address handlerAddress) {
-    _owner = msg.sender;
+    _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
     _handlerAddress = handlerAddress;
   }
 
   /**
+      @notice Grants DEFAULT_ADMIN_ROLE to specified {newAdmin}.
+      @notice Only callable by admin.
+      @param newAdmin Address of the new admin.
+  */
+  function grantAdmin(address newAdmin) external onlyAdmin {
+    _setupRole(DEFAULT_ADMIN_ROLE, newAdmin);
+  }
+
+  /**
+      @notice Revokes DEFAULT_ADMIN_ROLE from the specified {adminAddress}.
+      @notice Only callable by admin.
+      @param adminAddress Address of the current admin to be revoked.
+  */
+  function revokeAdmin(address adminAddress) external onlyAdmin {
+    revokeRole(DEFAULT_ADMIN_ROLE, adminAddress);
+  }
+
+  /**
       @notice Assigns {handlerAddress} used by ownlyHandler.
+      @notice Only callable by admin.
       @param handlerAddress Address of the ERC20SXHandler contract, permissioned to call bridgeExit().
   */
-  function setHandler(address handlerAddress) external {
+  function setHandler(address handlerAddress) external onlyAdmin {
     _handlerAddress = handlerAddress;
   }
 
@@ -57,10 +78,10 @@ contract SXVault {
 
   /**
       @notice Withdraw {amount} from the contract.
-      @notice Only callable by owner.
+      @notice Only callable by admin.
       @notice Emits {Withdraw} event.
   */
-  function withdraw(uint256 amount) external onlyOwner {
+  function withdraw(uint256 amount) external onlyAdmin {
     require(address(this).balance >= amount, 'Insufficient balance.');
 
     (bool success, ) = payable(msg.sender).call{ value: amount }('');
@@ -71,7 +92,7 @@ contract SXVault {
 
   /**
       @notice Sends the specified {recipient} native SX specified by {amount}.
-      @notice Only callable by bridge handler.
+      @notice Only callable by handler.
       @notice Emits {BridgeExit} event.
   */
   function bridgeExit(address recipient, uint256 amount) external onlyHandler {
