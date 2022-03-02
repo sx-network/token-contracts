@@ -35,7 +35,7 @@ contract WSX is
       // mint WSX to the sender      
       _mint(msg.sender, msg.value);
 
-      Deposit(msg.sender, msg.value);
+      emit Deposit(msg.sender, msg.value);
     }
 
     /**
@@ -51,7 +51,7 @@ contract WSX is
       (bool success, ) = payable(_msgSender()).call{value:amount}("");
       require(success, "Transfer failed.");
 
-      Withdrawal(_msgSender(), amount);
+      emit Withdrawal(_msgSender(), amount);
     }
 
     /**
@@ -62,10 +62,10 @@ contract WSX is
       require(address(this).balance >= amount, "Insufficient balance.");
       
       // transfer sender SX
-      (bool success, ) = payable(_msgSender()).call{value:amount}("");
+      (bool success, ) = payable(msg.sender).call{value:amount}("");
       require(success, "Transfer failed.");
 
-      Withdrawal(_msgSender(), amount);
+      emit Withdrawal(msg.sender, amount);
     }
 
     // This is to support Native meta transactions

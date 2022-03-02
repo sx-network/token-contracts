@@ -17,7 +17,7 @@ contract EIP712Base is Initializable {
             "EIP712Domain(string name,string version,address verifyingContract,bytes32 salt)"
         )
     );
-    bytes32 internal domainSeperator;
+    bytes32 internal domainSeparator;
 
     // supposed to be called once while initializing.
     // one of the contractsa that inherits this contract follows proxy pattern
@@ -28,11 +28,11 @@ contract EIP712Base is Initializable {
         internal
         initializer
     {
-        _setDomainSeperator(name);
+        _setDomainSeparator(name);
     }
 
-    function _setDomainSeperator(string memory name) internal {
-        domainSeperator = keccak256(
+    function _setDomainSeparator(string memory name) internal {
+        domainSeparator = keccak256(
             abi.encode(
                 EIP712_DOMAIN_TYPEHASH,
                 keccak256(bytes(name)),
@@ -43,8 +43,8 @@ contract EIP712Base is Initializable {
         );
     }
 
-    function getDomainSeperator() public view returns (bytes32) {
-        return domainSeperator;
+    function getDomainSeparator() public view returns (bytes32) {
+        return domainSeparator;
     }
 
     function getChainId() public pure returns (uint256) {
@@ -69,7 +69,7 @@ contract EIP712Base is Initializable {
     {
         return
             keccak256(
-                abi.encodePacked("\x19\x01", getDomainSeperator(), messageHash)
+                abi.encodePacked("\x19\x01", getDomainSeparator(), messageHash)
             );
     }
 }
