@@ -4,11 +4,9 @@ build
 .env
 cache
 
-# Committing artifacts so they can be accessed from other projects
-# artifacts
-
-# Committing flattened contracts so they can be loaded in remix easily
-# flat
+artifacts
+flat
+out
 
 test-blockchain/genesis.json
 test-blockchain/geth
