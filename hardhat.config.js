@@ -12,11 +12,11 @@ module.exports = {
 
   networks: {
     toronto: {
-      url: "http://3.215.13.226:10002",
+      url: "https://rpc.toronto.sx.technology",
       accounts: [`0x${process.env.PK_TEST}`],
     },
     main: {
-      url: "http://3.97.59.226:10002",
+      url: "https://rpc.sx.technology",
       accounts: [`0x${process.env.PK_MAIN}`],
     },
   },
