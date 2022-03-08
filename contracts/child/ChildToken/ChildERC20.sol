@@ -1,14 +1,11 @@
+// SPDX-License-Identifier: MIT
 pragma solidity 0.7.6;
 
 import {ERC20PresetMinterPauser} from "@openzeppelin/contracts/presets/ERC20PresetMinterPauser.sol";
 import {NativeMetaTransaction} from "../../common/NativeMetaTransaction.sol";
 import {ContextMixin} from "../../common/ContextMixin.sol";
 
-contract ChildERC20 is
-    ERC20PresetMinterPauser,
-    NativeMetaTransaction,
-    ContextMixin
-{
+contract ChildERC20 is ERC20PresetMinterPauser, NativeMetaTransaction, ContextMixin {
     constructor(
         string memory name_,
         string memory symbol_,
@@ -27,12 +24,7 @@ contract ChildERC20 is
 
     // This is to support Native meta transactions
     // never use msg.sender directly, use _msgSender() instead
-    function _msgSender()
-        internal
-        override
-        view
-        returns (address payable sender)
-    {
+    function _msgSender() internal view override returns (address payable sender) {
         return ContextMixin.msgSender();
     }
 }
