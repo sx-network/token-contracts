@@ -23,20 +23,26 @@ describe("WSX contract", function () {
     await wsx.deposit({
       gasPrice: 1000000000,
       gasLimit: 500000,
-      value: 100
-    })
+      value: 100,
+    });
     expect(await wsx.balanceOf(owner.getAddress())).to.equal(100, "Wrapped balance should be 100");
-    expect(Math.floor(ethers.utils.formatEther(await owner.getBalance()))).to.equal(Math.floor(initialNativeBalance + 100), "Native balance should be " + initialNativeBalance - 100);
-  
+    expect(Math.floor(ethers.utils.formatEther(await owner.getBalance()))).to.equal(
+      Math.floor(initialNativeBalance + 100),
+      "Native balance should be " + initialNativeBalance - 100
+    );
+
     const updatedNativeBalance = ethers.utils.formatEther(await owner.getBalance());
 
     // unwrap
     await wsx.withdraw(30, {
       gasPrice: 1000000000,
-      gasLimit: 500000})
+      gasLimit: 500000,
+    });
 
-    
     expect(await wsx.balanceOf(owner.getAddress())).to.equal(70, "Wrapped balance should be 70");
-    expect(Math.floor(ethers.utils.formatEther(await owner.getBalance()))).to.equal(Math.floor(updatedNativeBalance + 30), "Native balance should be " + initialNativeBalance - 100);
+    expect(Math.floor(ethers.utils.formatEther(await owner.getBalance()))).to.equal(
+      Math.floor(updatedNativeBalance + 30),
+      "Native balance should be " + initialNativeBalance - 100
+    );
   });
 });
